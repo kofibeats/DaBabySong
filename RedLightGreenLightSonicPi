@@ -4,19 +4,28 @@ lyricsred = "C:/Users/Aston Turney/Downloads/BabyRedlightlyrics.wav"
 lyricsbop = "C:/Users/Aston Turney/Downloads/babyboplyrics.wav"
 jetson = "C:/Users/Aston Turney/Downloads/jetson.wav"
 
+p1 = [:G4,:E4,:A4,:E4,:G4,:C4,:Fs4,:D4]
+x = 21.875
+a = 0
+b = 2.6
+c = 1.78
+d = 0.9
 
 live_loop :flute do
-  use_bpm 165
-  with_synth :hollow do
-    with_fx :reverb do
-      with_fx :level do
-        
-        sample flute_whistle
-        sleep 21.875
-        
+  3. times do
+    use_bpm 165
+    with_synth :hollow do
+      with_fx :reverb do
+        with_fx :level do
+          
+          sample flute_whistle
+          sleep x
+          
+        end
       end
     end
   end
+  stop
 end
 
 sleep 8
@@ -25,8 +34,8 @@ use_bpm 165
 live_loop :bass do
   2. times do
     with_fx :reverb do
-      sample bass_heavy, amp: 2.6
-      sleep 21.875
+      sample bass_heavy, amp: b
+      sleep x
     end
   end
   stop
@@ -37,8 +46,8 @@ sleep 0.6
 with_fx :reverb do
   live_loop :lyr do
     2. times do
-      sample lyricsred, amp: 1.78
-      sleep 21.875
+      sample lyricsred, amp: c
+      sleep x
     end
     stop
   end
@@ -49,22 +58,38 @@ sample jetson, amp: 2.2
 
 sleep 8.2555
 
+live_loop :main_theme do
+  with_fx :gverb do
+    8. times do
+      play (p1 [a]), amp: d
+      a = a + 1
+      sleep 2.75
+    end
+    a = 0
+  end
+end
+
 live_loop :bop do
   with_fx :reverb do
-    p1 = [chord(:G2,"minor7"),
-          chord(:E2,"major7"),
-          chord(:A2,"minor7"),
-          chord(:E2,"m9"),
-          chord(:G2,"m9"),
-          chord(:C2,"minor7"),
-          chord(:Fs2,"major7"),
-          chord(:D2,"m11")
-          ]
-    
     cc = chord(:G2,"minor")
     2. times do
-      sample lyricsbop, amp: 1.78
+      sample lyricsbop, amp: c
       sleep 22.5
     end
   end
+end
+
+sleep 5
+
+live_loop :decrease do
+  28. times do
+    b = b - 0.17
+    c = c - 0.067
+    d = d - 0.0243
+    sleep 1.789
+  end
+  stop
+  b = 0
+  c = 0
+  d = 0
 end
